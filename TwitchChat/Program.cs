@@ -24,10 +24,7 @@ namespace TwitchChat
             var clientId = authUser.ReadInput("Client-Id");
             var redirectURI = authUser.ReadInput("Redirect-URI");
             var nickName = authUser.ReadInput("Nickname").ToLowerInvariant();
-
-            var api = new TwitchAPI();
-            api.ClientId = clientId;
-            var authorization = Auth(api, redirectURI);
+            var authorization = Auth(clientId, redirectURI);
 
             using (var client = new TwitchChatClient())
             {
@@ -96,8 +93,11 @@ namespace TwitchChat
 
         }
 
-        private static OAuthAuthorization Auth(TwitchAPI api, string redirectURI)
+        private static OAuthAuthorization Auth(string clientId, string redirectURI)
         {
+            var api = new TwitchAPI();
+            api.ClientId = clientId;
+
             using (var authHandler = new TwitchAuthHandler(api))
             {
                 var authRequest = new OAuthRequestToken();
