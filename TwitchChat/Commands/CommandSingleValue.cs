@@ -13,7 +13,7 @@ namespace TwitchChat.Commands
 
         public CommandSingleValue()
         {
-
+            this.Value = null;
         }
 
         public override void FromRaw(IRCMessage message)

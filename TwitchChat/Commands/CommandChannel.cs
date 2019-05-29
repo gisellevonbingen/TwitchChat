@@ -15,7 +15,7 @@ namespace TwitchChat.Commands
 
         public CommandChannel()
         {
-
+            this.Channel = null;
         }
 
         public override void FromRaw(IRCMessage message)
