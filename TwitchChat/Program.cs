@@ -38,7 +38,7 @@ namespace TwitchChat
                 {
                     while (true)
                     {
-                        var input = user.ReadInput(">");
+                        var input = user.ReadInput("");
                         var message = new IRCMessage();
                         message.Parse(input);
 
@@ -88,7 +88,7 @@ namespace TwitchChat
             }
             else if (command is CommandRaw raw)
             {
-                user.SendMessage(raw.Name + " " + string.Join(" ", raw.Values));
+                user.SendMessage(raw.Prefix.Nick + " - " + raw.Name + " " + string.Join(" ", raw.Values));
             }
 
         }
