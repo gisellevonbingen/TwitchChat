@@ -36,9 +36,6 @@
     <Reference Include="IRCProtocol">
       <HintPath>..\Libs\IRCProtocol\IRCProtocol.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\Libs\TwitchAPIs.Test\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -59,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandCapability.cs" />
     <Compile Include="Commands\CommandChannel.cs" />
     <Compile Include="Commands\CommandJoin.cs" />
     <Compile Include="Commands\CommandNick.cs" />
@@ -70,13 +68,16 @@
     <Compile Include="Commands\CommandRegister.cs" />
     <Compile Include="Commands\CommandRegistration.cs" />
     <Compile Include="Commands\CommandSingleValue.cs" />
-    <Compile Include="ConnectMode.cs" />
+    <Compile Include="ProtocolSecurity.cs" />
+    <Compile Include="KnownCapabilities.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ParamsUtils.cs" />
+    <Compile Include="ChatClient.cs" />
+    <Compile Include="ChatClientIRC.cs" />
+    <Compile Include="ChatClientWebSocket.cs" />
+    <Compile Include="ProtocolType.cs" />
     <Compile Include="TwitchChatClient.cs" />
-    <Compile Include="TwitchChatClientIRC.cs" />
-    <Compile Include="TwitchChatClientWebSocket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

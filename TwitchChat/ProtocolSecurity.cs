@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TwitchChat
 {
-    public enum ConnectMode : byte
+    public enum ProtocolSecurity : byte
     {
         Default = 0,
         SSL = 1,

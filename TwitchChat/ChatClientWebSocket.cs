@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -9,8 +10,10 @@ using WebSocketSharp;
 
 namespace TwitchChat
 {
-    public class TwitchChatClientWebSocket : TwitchChatClient
+    public class ChatClientWebSocket : ChatClient
     {
+        public string URL { get; }
+
         private readonly object ConnectingLock = new object();
 
         private Queue<string> ReceiveQueue;
@@ -18,8 +21,10 @@ namespace TwitchChat
 
         private WebSocket Socket;
 
-        public TwitchChatClientWebSocket()
+        public ChatClientWebSocket(string url)
         {
+            this.URL = url;
+
             this.ReceiveQueue = new Queue<string>();
             this.ReceiveEvent = new ManualResetEventSlim();
 
@@ -30,6 +35,7 @@ namespace TwitchChat
         {
             base.Dispose(disposing);
 
+            this.ReceiveEvent.Set();
             ObjectUtils.DisposeQuietly(this.ReceiveEvent);
 
             lock (this.ConnectingLock)
@@ -48,24 +54,26 @@ namespace TwitchChat
             {
                 this.EnsureNotDispose();
 
-                var connectMode = this.ConnectMode;
-                var protocol = this.GetProtocol(connectMode);
-                var port = this.GetPort(connectMode);
-
-                ws = this.Socket = new WebSocket($"{protocol}://irc-ws.chat.twitch.tv:{port}");
+                ws = this.Socket = new WebSocket(this.URL);
             }
 
             ws.Log.Output = null;
             ws.OnMessage += this.OnMessage;
             ws.OnError += this.OnError;
+            ws.OnClose += this.OnClose;
             ws.Connect();
 
             this.EnsureNotDispose();
         }
 
-        private void OnError(object sender, ErrorEventArgs e)
+        private void OnClose(object sender, CloseEventArgs e)
         {
+            this.Dispose();
+        }
 
+        private void OnError(object sender, WebSocketSharp.ErrorEventArgs e)
+        {
+            this.Dispose();
         }
 
         private void OnMessage(object sender, MessageEventArgs e)
@@ -84,7 +92,7 @@ namespace TwitchChat
             this.Socket.Send(raw);
         }
 
-        public override string ReceiveRaw()
+        public override string Receive()
         {
             var receiveQueue = this.ReceiveQueue;
             var receiveEvent = this.ReceiveEvent;
@@ -103,19 +111,18 @@ namespace TwitchChat
                 }
 
                 receiveEvent.Wait();
-                receiveEvent.Reset();
+
+                if (this.Disposed == true)
+                {
+                    throw new IOException();
+                }
+                else
+                {
+                    receiveEvent.Reset();
+                }
+
             }
 
-        }
-
-        public string GetProtocol(ConnectMode mode)
-        {
-            return mode == ConnectMode.SSL ? "wss" : "ws";
-        }
-
-        public int GetPort(ConnectMode mode)
-        {
-            return mode == ConnectMode.SSL ? 443 : 80;
         }
 
     }

@@ -28,26 +28,29 @@ namespace TwitchChat
             var api = new TwitchAPI();
             api.ClientId = clientId;
             var authorization = Auth(api, redirectURI);
-            api.AccessToken = authorization.AccessToken;
 
-            // using (var chat = new TwitchChatWebSocket())
-            using (var chat = new TwitchChatClientIRC())
+            using (var client = new TwitchChatClient())
             {
-                chat.ConnectMode = ConnectMode.Default;
-                chat.Connect();
+                client.Type = ProtocolType.IRC;
+                client.Security = ProtocolSecurity.Default;
+                client.OAuth = authorization.AccessToken;
+                client.Nick = nickName;
+                client.Connect();
 
-                new Thread(()=>
+                new Thread(() =>
                 {
                     while (true)
                     {
                         var input = user.ReadInput(">");
-                        chat.Send(input);
+                        var message = new IRCMessage();
+                        message.Parse(input);
+
+                        client.Send(message);
                     }
 
                 }).Start();
 
-                var program = new Program(user, chat);
-                program.Connect(authorization.AccessToken, nickName);
+                var program = new Program(user, client);
                 program.Run();
             }
 
@@ -60,13 +63,6 @@ namespace TwitchChat
         {
             this.User = user;
             this.Client = client;
-        }
-
-        public void Connect(string accessToken, string nickName)
-        {
-            var client = this.Client;
-            client.Send(new CommandPass() { Value = $"oauth:{accessToken}" });
-            client.Send(new CommandNick() { Value = nickName });
         }
 
         public void Run()
@@ -92,6 +88,10 @@ namespace TwitchChat
             {
                 user.SendMessage("Ping From Server : " + ping.Value);
                 client.Send(new CommandPong() { Value = ping.Value });
+            }
+            else if (command is CommandRaw raw)
+            {
+                user.SendMessage(raw.Name + " " + string.Join(" ", raw.Values));
             }
 
         }

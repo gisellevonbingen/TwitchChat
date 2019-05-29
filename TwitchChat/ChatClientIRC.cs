@@ -10,8 +10,11 @@ using TwitchAPIs;
 
 namespace TwitchChat
 {
-    public class TwitchChatClientIRC : TwitchChatClient
+    public class ChatClientIRC : ChatClient
     {
+        public string Hostname { get; }
+        public int Port { get; }
+
         private readonly object ConnectingLock = new object();
         private TcpClient Client;
         private WaitHandle WaitHandle;
@@ -21,8 +24,11 @@ namespace TwitchChat
         private StreamReader Reader;
         private StreamWriter Writer;
 
-        public TwitchChatClientIRC()
+        public ChatClientIRC(string hostname, int port)
         {
+            this.Hostname = hostname;
+            this.Port = port;
+
             this.Client = null;
             this.WaitHandle = null;
 
@@ -59,10 +65,8 @@ namespace TwitchChat
             {
                 this.EnsureNotDispose();
 
-                var hostname = "irc.chat.twitch.tv";
-                var port = this.ConnectMode == ConnectMode.SSL ? 6697 : 6667;
                 client = this.Client = new TcpClient();
-                waitHandle = this.WaitHandle = client.BeginConnect(hostname, port, null, null).AsyncWaitHandle;
+                waitHandle = this.WaitHandle = client.BeginConnect(this.Hostname, this.Port, null, null).AsyncWaitHandle;
             }
 
             waitHandle.WaitOne();
@@ -91,7 +95,7 @@ namespace TwitchChat
             this.Writer.Flush();
         }
 
-        public override string ReceiveRaw()
+        public override string Receive()
         {
             this.EnsureNotDispose();
             return this.Reader.ReadLine();
