@@ -79,9 +79,13 @@ namespace TwitchChat
             var client = this.Client;
             var command = client.RecieveCommand();
 
-            if (command is CommandChannelMessage msg)
+            if (command is CommandChannelMessage ccm)
             {
-                user.SendMessage($"{msg.Channel}.{msg.Sender.Nick} - {msg.GetType().Name} : {msg.Message}");
+                user.SendMessage($"{ccm.Channel} - {ccm.GetType().Name} - {ccm.Sender.Nick}: {ccm.Message}");
+            }
+            else if (command is CommandChannel cm)
+            {
+                user.SendMessage($"{cm.Channel} - {cm.GetType().Name} - {cm.Sender.Nick}");
             }
             else if (command is CommandPing ping)
             {
@@ -94,7 +98,7 @@ namespace TwitchChat
             }
             else
             {
-                user.SendMessage($"{command.Sender.Nick} - {CommandRegister.FromType(command.GetType()).Name}");
+                user.SendMessage($"{command.GetType().Name} - {command.Sender.Nick}");
             }
 
         }
