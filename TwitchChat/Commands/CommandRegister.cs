@@ -15,13 +15,29 @@ namespace TwitchChat.Commands
         {
             List = new List<CommandRegistration>();
 
+            Register("cap", typeof(CommandCapability));
             Register("pass", typeof(CommandPass));
             Register("nick", typeof(CommandNick));
             Register("ping", typeof(CommandPing));
             Register("pong", typeof(CommandPong));
 
             Register("join", typeof(CommandJoin));
+            Register("mode", typeof(CommandMode));
+            Register("353", typeof(CommandNames));
+            Register("366", typeof(CommandEndOfNames));
+            Register("part", typeof(CommandPart));
+
+
+            Register("clearchat", typeof(CommandClearChat));
+            Register("clearmsg", typeof(CommandClearMessage));
+            Register("hosttarget", typeof(CommandHostTarget));
+            Register("notice", typeof(CommandNotice));
+            Register("globaluserstate", typeof(CommandGlobalUserState));
             Register("privmsg", typeof(CommandPrivateMessage));
+            Register("reconnect", typeof(CommandReconnect));
+            Register("roomstate", typeof(CommandRoomState));
+            Register("usernotice", typeof(CommandUserNotice));
+            Register("userstate", typeof(CommandUserState));
         }
 
         public static CommandRegistration FromName(string name)
@@ -38,22 +54,44 @@ namespace TwitchChat.Commands
 
         }
 
-        public static IRCMessage ToRaw(Command command)
+        public static IRCMessage ToMessage(Command command)
         {
-            var message = new IRCMessage();
-            message.Params = new IRCParams();
-            message.Command = FromType(command.GetType()).Name;
-            command.ToRaw(message);
+            try
+            {
+                var message = new IRCMessage();
+                message.Params = new IRCParams();
 
-            return message;
+                var serializer = new CommandSerializer();
+                serializer.Command = FromType(command.GetType()).Name;
+                command.Write(serializer);
+                serializer.ToMessage(message);
+
+                return message;
+            }
+            catch (Exception e)
+            {
+                throw new CommandException($"command:'{command.GetType().FullName}'", e);
+            }
+
         }
 
-        public static Command FromRaw(IRCMessage message)
+        public static Command FromMessage(IRCMessage message)
         {
-            var command = CreateCommand(message.Command, true);
-            command.FromRaw(message);
+            try
+            {
+                var serializer = new CommandSerializer();
+                serializer.FromMessage(message);
 
-            return command;
+                var command = CreateCommand(serializer.Command, true);
+                command.Read(serializer);
+
+                return command;
+            }
+            catch (Exception e)
+            {
+                throw new CommandException($"message:'{message}'", e);
+            }
+
         }
 
         public static Command CreateCommand(string command, bool rawable)

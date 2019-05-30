@@ -19,23 +19,23 @@ namespace TwitchChat.Commands
             this.Values = new List<string>();
         }
 
-        public override void ToRaw(IRCMessage message)
+        public override void Write(CommandSerializer serializer)
         {
-            base.ToRaw(message);
+            base.Write(serializer);
 
-            message.Command = this.Name;
-            message.Params.Values.AddRange(this.Values);
+            serializer.Command = this.Name;
+            serializer.PutParams(this.Values);
         }
 
-        public override void FromRaw(IRCMessage message)
+        public override void Read(CommandSerializer serializer)
         {
-            base.FromRaw(message);
+            base.Read(serializer);
 
-            this.Name = message.Command;
+            this.Name = serializer.Command;
 
             var values = this.Values;
             values.Clear();
-            values.AddRange(message.Params.Values);
+            values.AddRange(serializer.GetParams());
         }
 
     }

@@ -32,13 +32,15 @@ namespace TwitchChat
                 client.Security = ProtocolSecurity.Default;
                 client.OAuth = authorization.AccessToken;
                 client.Nick = nickName;
+                client.Capabilities.Add(KnownCapabilities.Commands);
+                client.Capabilities.Add(KnownCapabilities.Membership);
                 client.Connect();
 
                 new Thread(() =>
                 {
                     while (true)
                     {
-                        var input = user.ReadInput("");
+                        var input = user.ReadInput();
                         var message = new IRCMessage();
                         message.Parse(input);
 
@@ -77,9 +79,9 @@ namespace TwitchChat
             var client = this.Client;
             var command = client.RecieveCommand();
 
-            if (command is CommandPrivateMessage privmsg)
+            if (command is CommandChannelMessage msg)
             {
-                user.SendMessage($"{CommandChannel.ChannelPrefix}{privmsg.Channel}.{privmsg.Prefix.Nick} : {privmsg.Message}");
+                user.SendMessage($"{msg.Channel}.{msg.Sender.Nick} - {msg.GetType().Name} : {msg.Message}");
             }
             else if (command is CommandPing ping)
             {
@@ -88,7 +90,11 @@ namespace TwitchChat
             }
             else if (command is CommandRaw raw)
             {
-                user.SendMessage(raw.Prefix.Nick + " - " + raw.Name + " " + string.Join(" ", raw.Values));
+                user.SendMessage($"{raw.Sender.Nick} - {raw.Name} {string.Join(" ", raw.Values)}");
+            }
+            else
+            {
+                user.SendMessage($"{command.Sender.Nick} - {CommandRegister.FromType(command.GetType()).Name}");
             }
 
         }

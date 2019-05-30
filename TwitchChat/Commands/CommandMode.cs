@@ -3,31 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using IRCProtocol;
 
 namespace TwitchChat.Commands
 {
-    public abstract class CommandChannel : Command
+    public class CommandMode : CommandChannel
     {
-        public string Channel { get; set; }
+        public string Operator { get; set; }
+        public string User { get; set; }
 
-        public CommandChannel()
+        public CommandMode()
         {
-            this.Channel = null;
+            this.Operator = null;
+            this.User = null;
         }
 
         public override void Read(CommandSerializer serializer)
         {
             base.Read(serializer);
 
-            this.Channel = serializer.GetParam();
+            this.Operator = serializer.GetParam();
+            this.User = serializer.GetParam();
         }
 
         public override void Write(CommandSerializer serializer)
         {
             base.Write(serializer);
 
-            serializer.PutParam(this.Channel);
+            serializer.PutParam(this.Operator);
+            serializer.PutParam(this.User);
         }
 
     }

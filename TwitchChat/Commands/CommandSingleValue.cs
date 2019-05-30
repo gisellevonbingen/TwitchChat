@@ -16,18 +16,18 @@ namespace TwitchChat.Commands
             this.Value = null;
         }
 
-        public override void FromRaw(IRCMessage message)
+        public override void Read(CommandSerializer serializer)
         {
-            base.FromRaw(message);
+            base.Read(serializer);
 
-            this.Value = message.Params.Values.FirstOrDefault();
+            this.Value = serializer.GetParam();
         }
 
-        public override void ToRaw(IRCMessage message)
+        public override void Write(CommandSerializer serializer)
         {
-            base.ToRaw(message);
+            base.Write(serializer);
 
-            message.Params.Values.Add(this.Value);
+            serializer.PutParam(this.Value);
         }
 
     }

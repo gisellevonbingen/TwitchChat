@@ -38,7 +38,7 @@ namespace TwitchChat
 
         public void Send(Command command)
         {
-            var message = CommandRegister.ToRaw(command);
+            var message = CommandRegister.ToMessage(command);
             this.Send(message);
         }
 
@@ -65,7 +65,7 @@ namespace TwitchChat
         public Command RecieveCommand()
         {
             var message = this.RecieveMessage();
-            var command = CommandRegister.FromRaw(message);
+            var command = CommandRegister.FromMessage(message);
 
             return command;
         }
@@ -83,7 +83,7 @@ namespace TwitchChat
 
             foreach (var capability in this.Capabilities)
             {
-                this.Send(new CommandCapability() { Direction = "REQ", Capability = capability });
+                this.Send(new CommandCapability() { Method = "REQ", Capability = capability });
             }
 
             this.Send(new CommandPass() { Value = $"oauth:{this.OAuth}" });

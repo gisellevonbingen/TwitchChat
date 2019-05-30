@@ -9,21 +9,21 @@ namespace TwitchChat.Commands
 {
     public abstract class Command
     {
-        public IRCPrefix Prefix { get; set; }
+        public IRCPrefix Sender { get; set; }
 
         public Command()
         {
-            this.Prefix = null;
+            this.Sender = null;
         }
 
-        public virtual void FromRaw(IRCMessage message)
+        public virtual void Read(CommandSerializer serializer)
         {
-            this.Prefix = message.Prefix;
+            this.Sender = serializer.Sender;
         }
 
-        public virtual void ToRaw(IRCMessage message)
+        public virtual void Write(CommandSerializer serializer)
         {
-            message.Prefix = this.Prefix;
+            serializer.Sender = this.Sender;
         }
 
     }

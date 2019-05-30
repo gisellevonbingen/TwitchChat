@@ -9,29 +9,29 @@ namespace TwitchChat.Commands
 {
     public class CommandCapability : Command
     {
-        public string Direction { get; set; }
+        public string Method { get; set; }
         public string Capability { get; set; }
 
         public CommandCapability()
         {
-            this.Direction = null;
+            this.Method = null;
             this.Capability = null;
         }
 
-        public override void FromRaw(IRCMessage message)
+        public override void Read(CommandSerializer serializer)
         {
-            base.FromRaw(message);
+            base.Read(serializer);
 
-            this.Direction = message.Params.Values[0];
-            this.Capability = message.Params.Values[1];
+            this.Method = serializer.GetParam();
+            this.Capability = serializer.GetParam();
         }
 
-        public override void ToRaw(IRCMessage message)
+        public override void Write(CommandSerializer serializer)
         {
-            base.ToRaw(message);
+            base.Write(serializer);
 
-            message.Params.Values.Add(this.Direction);
-            message.Params.Values.Add(this.Capability);
+            serializer.PutParam(this.Method);
+            serializer.PutParam(this.Capability);
         }
 
     }

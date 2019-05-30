@@ -8,9 +8,9 @@ namespace TwitchChat
 {
     public static class KnownCapabilities
     {
-        public const string Membership = "membership";
-        public const string Tags = "tags";
-        public const string Commands = "commands";
+        public const string Membership = ":twitch.tv/membership";
+        public const string Tags = ":twitch.tv/tags";
+        public const string Commands = ":twitch.tv/commands";
     }
 
 }
