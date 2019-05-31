@@ -9,10 +9,12 @@ namespace TwitchChat.Commands
 {
     public class CommandClearChat : CommandChannel
     {
+        public TagsClearChat Tags { get; set; }
         public string User { get; set; }
 
         public CommandClearChat()
         {
+            this.Tags = null;
             this.User = null;
         }
 
@@ -20,19 +22,23 @@ namespace TwitchChat.Commands
         {
             base.Read(serializer);
 
+            this.Tags = serializer.ReadTags(() => new TagsClearChat());
+
             var user = serializer.GetParam(true);
-            this.User = CommandUtils.RemovePrefix(user, IRCParams.TrailingPrefix);
+            this.User = ParamsUtils.RemovePrefix(user, IRCParams.TrailingPrefix);
         }
 
         public override void Write(CommandSerializer serializer)
         {
             base.Write(serializer);
 
+            serializer.WriteTags(this.Tags);
+
             var user = this.User;
 
             if (user != null)
             {
-                serializer.PutParam(CommandUtils.AddPrefix(user, IRCParams.TrailingPrefix));
+                serializer.PutParam(ParamsUtils.AddPrefix(user, IRCParams.TrailingPrefix));
             }
 
         }

@@ -15,12 +15,12 @@ namespace TwitchChat.Commands
 
         public override void Read(TagsSerializer serializer)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void Write(TagsSerializer serializer)
         {
-            throw new NotImplementedException();
+
         }
 
     }

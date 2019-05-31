@@ -83,6 +83,12 @@ namespace TwitchChat
             if (command is CommandChannelMessage ccm)
             {
                 user.SendMessage($"{ccm.Channel} - {ccm.GetType().Name} - {ccm.Sender.Nick}: {ccm.Message}");
+
+                if (ccm is CommandPrivateMessage cpm)
+                {
+                    PrintReflection(user, "TagsPrivateMessage", cpm.Tags);
+                }
+
             }
             else if (command is CommandChannel cm)
             {
@@ -166,8 +172,8 @@ namespace TwitchChat
                 var type = obj.GetType();
                 var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty);
 
-                list.Add(new PrintableLine(level, $"Type.FullName = {type.FullName}"));
-                list.Add(new PrintableLine(level, $"Properties.Length = {properties.Length}"));
+                //list.Add(new PrintableLine(level, $"Type.FullName = {type.FullName}"));
+                //list.Add(new PrintableLine(level, $"Properties.Length = {properties.Length}"));
 
                 for (int i = 0; i < properties.Length; i++)
                 {
