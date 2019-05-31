@@ -28,7 +28,7 @@ namespace TwitchChat
 
             using (var client = new TwitchChatClient())
             {
-                client.Type = ProtocolType.IRC;
+                client.Type = ProtocolType.WebSocket;
                 client.Security = ProtocolSecurity.Default;
                 client.OAuth = authorization.AccessToken;
                 client.Nick = nickName;
