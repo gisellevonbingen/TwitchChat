@@ -119,6 +119,14 @@ namespace TwitchChat
             {
                 PrintReflection(user, "TagsUserState", cus.Tags);
             }
+            else if (command is CommandRoomState crs)
+            {
+                PrintReflection(user, "TagsRoomState", crs.Tags);
+            }
+            else if (command is CommandUserNotice cun)
+            {
+                PrintReflection(user, "TagsUserNotice", cun.Tags);
+            }
 
         }
 

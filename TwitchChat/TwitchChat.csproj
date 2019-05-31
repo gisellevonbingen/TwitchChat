@@ -90,6 +90,7 @@
     <Compile Include="Commands\TagsGlobalUserState.cs" />
     <Compile Include="Commands\TagsPrivateMessage.cs" />
     <Compile Include="Commands\TagsRaw.cs" />
+    <Compile Include="Commands\TagsRoomState.cs" />
     <Compile Include="Commands\TagsSerializer.cs" />
     <Compile Include="Commands\TagsUserState.cs" />
     <Compile Include="ProtocolSecurity.cs" />
