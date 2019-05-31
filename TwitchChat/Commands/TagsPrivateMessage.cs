@@ -18,11 +18,8 @@ namespace TwitchChat.Commands
         public string Message { get; set; }
         public string Mod { get; set; }
         public string RoomId { get; set; }
-        public string Subscriber { get; set; }
         public string Timestamp { get; set; }
-        public string Turbo { get; set; }
         public string UserId { get; set; }
-        public string UserType { get; set; }
 
         public TagsPrivateMessage()
         {
@@ -41,11 +38,8 @@ namespace TwitchChat.Commands
             this.Message = serializer.GetSingle("message");
             this.Mod = serializer.GetSingle("mod");
             this.RoomId = serializer.GetSingle("room-id");
-            this.Subscriber = serializer.GetSingle("subscriber");
             this.Timestamp = serializer.GetSingle("tmi-sent-ts");
-            this.Turbo = serializer.GetSingle("turbo");
             this.UserId = serializer.GetSingle("user-id");
-            this.UserType = serializer.GetSingle("user-type");
         }
 
         public override void Write(TagsSerializer serializer)

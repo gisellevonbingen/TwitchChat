@@ -13,9 +13,7 @@ namespace TwitchChat.Commands
         public string Color { get; set; }
         public string DisplayName { get; set; }
         public List<string> EmoteSets { get; set; }
-        public string Turbo { get; set; }
         public string UserId { get; set; }
-        public string UserType { get; set; }
 
         public TagsGlobalUserState()
         {
@@ -29,9 +27,7 @@ namespace TwitchChat.Commands
             this.Color = serializer.GetSingle("color");
             this.DisplayName = serializer.GetSingle("display-name");
             this.EmoteSets = serializer.GetList("emote-sets");
-            this.Turbo = serializer.GetSingle("turbo");
             this.UserId = serializer.GetSingle("user-id");
-            this.UserType = serializer.GetSingle("user-type");
         }
 
         public override void Write(TagsSerializer serializer)

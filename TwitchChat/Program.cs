@@ -82,13 +82,15 @@ namespace TwitchChat
 
             if (command is CommandChannelMessage ccm)
             {
-                user.SendMessage($"{ccm.Channel} - {ccm.GetType().Name} - {ccm.Sender.Nick}: {ccm.Message}");
+                var nick = ccm.Sender.Nick;
 
                 if (ccm is CommandPrivateMessage cpm)
                 {
-                    PrintReflection(user, "TagsPrivateMessage", cpm.Tags);
+                    nick = cpm.Tags.DisplayName;
+                    //PrintReflection(user, "TagsUserState", cus.Tags);
                 }
 
+                user.SendMessage($"{ccm.Channel} - {ccm.GetType().Name} - {nick}: {ccm.Message}");
             }
             else if (command is CommandChannel cm)
             {
@@ -106,6 +108,16 @@ namespace TwitchChat
             else
             {
                 user.SendMessage($"{command.Sender?.Nick ?? "{NULL}"} - {command.GetType().Name}");
+            }
+
+
+            if (command is CommandGlobalUserState cgus)
+            {
+                PrintReflection(user, "TagsGlobalUserState", cgus.Tags);
+            }
+            else if (command is CommandUserState cus)
+            {
+                PrintReflection(user, "TagsUserState", cus.Tags);
             }
 
         }
