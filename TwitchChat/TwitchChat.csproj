@@ -86,8 +86,13 @@
     <Compile Include="Commands\CommandUserState.cs" />
     <Compile Include="Commands\Tags.cs" />
     <Compile Include="Commands\TagsClearChat.cs" />
+    <Compile Include="Commands\TagsClearMessage.cs" />
+    <Compile Include="Commands\TagsGlobalUserState.cs" />
     <Compile Include="Commands\TagsPrivateMessage.cs" />
+    <Compile Include="Commands\TagsRaw.cs" />
     <Compile Include="Commands\TagsSerializer.cs" />
+    <Compile Include="Commands\TagsUser.cs" />
+    <Compile Include="Commands\TagsUserState.cs" />
     <Compile Include="ProtocolSecurity.cs" />
     <Compile Include="KnownCapabilities.cs" />
     <Compile Include="Program.cs" />
