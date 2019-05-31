@@ -9,6 +9,19 @@ namespace TwitchChat.Commands
 {
     public abstract class CommandChannel : Command
     {
+        public const string ChannelPrefix = "#";
+        public const string RoomSeparator = ":";
+
+        public static string GetChannel(string channelName)
+        {
+            return $"{ChannelPrefix}{channelName}";
+        }
+
+        public static string GetChannel(string channelId, string roomId)
+        {
+            return $"{ChannelPrefix}{RoomSeparator}{channelId}{RoomSeparator}{roomId}";
+        }
+
         public string Channel { get; set; }
 
         public CommandChannel()
