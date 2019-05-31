@@ -6,7 +6,6 @@ Selectable WebSocket, IRC Client
 
 ### To do list
 * [Parse Tags](https://dev.twitch.tv/docs/irc/tags/)
-* [Each Chat Rooms](https://dev.twitch.tv/docs/irc/chat-rooms/)
 
 ### References
 * [Twitch Chatbots & IRC Guide](https://dev.twitch.tv/docs/irc/guide/)
