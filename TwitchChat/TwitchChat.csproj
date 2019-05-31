@@ -84,11 +84,12 @@
     <Compile Include="Commands\CommandSingleValue.cs" />
     <Compile Include="Commands\CommandUserNotice.cs" />
     <Compile Include="Commands\CommandUserState.cs" />
+    <Compile Include="Commands\Tags.cs" />
     <Compile Include="ProtocolSecurity.cs" />
     <Compile Include="KnownCapabilities.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\ParamsUtils.cs" />
+    <Compile Include="Commands\CommandUtils.cs" />
     <Compile Include="ChatClient.cs" />
     <Compile Include="ChatClientIRC.cs" />
     <Compile Include="ChatClientWebSocket.cs" />

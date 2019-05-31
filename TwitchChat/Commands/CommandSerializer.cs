@@ -9,6 +9,9 @@ namespace TwitchChat.Commands
 {
     public class CommandSerializer
     {
+        public const char TagValuesSeparator = ',';
+
+        public Dictionary<string, List<string>> Tags { get; set; }
         public IRCPrefix Sender { get; set; }
         public string Command { get; set; }
         public int ParamsIndex { get; private set; }
@@ -16,14 +19,48 @@ namespace TwitchChat.Commands
 
         public CommandSerializer()
         {
+            this.Tags = null;
             this.Sender = null;
             this.Command = null;
             this.ParamsIndex = 0;
             this.Params = new List<string>();
         }
 
+        public T ReadTags<T>(Func<T> constructor) where T : Tags
+        {
+            var tags = this.Tags;
+
+            if (tags != null)
+            {
+                var tagSerializer = new TagsSerializer(tags);
+
+                var tagsObject = constructor();
+                tagsObject.Read(tagSerializer);
+
+                return tagsObject;
+            }
+
+            return null;
+        }
+
+        public void WriteTags<T>(T tagsObject) where T : Tags
+        {
+            if (tagsObject != null)
+            {
+                if (this.Tags == null)
+                {
+                    this.Tags = new Dictionary<string, List<string>>();
+                }
+
+                var tagSerializer = new TagsSerializer(this.Tags);
+                tagsObject.Write(tagSerializer);
+            }
+
+        }
+
         public void FromMessage(IRCMessage message)
         {
+            this.Tags = this.GetTags(message);
             this.Sender = message.Prefix;
             this.Command = message.Command;
             var param = this.Params;
@@ -32,13 +69,67 @@ namespace TwitchChat.Commands
             this.ParamsIndex = 0;
         }
 
+        private Dictionary<string, List<string>> GetTags(IRCMessage message)
+        {
+            var mTags = message.Tags;
+
+            if (mTags != null)
+            {
+                var tags = new Dictionary<string, List<string>>();
+
+                foreach (var pair in mTags.Values)
+                {
+                    tags[pair.Key.Name] = this.SplitTagValues(pair.Value);
+                }
+
+                return tags;
+            }
+
+            return null;
+        }
+
+        public List<string> SplitTagValues(string tagValue)
+        {
+            var values = new List<string>();
+            var splits = tagValue.Split(TagValuesSeparator);
+            values.AddRange(splits);
+
+            return values;
+        }
+
         public void ToMessage(IRCMessage message)
         {
+            message.Tags = this.SetTags(this.Tags);
             message.Prefix = this.Sender;
             message.Command = this.Command;
             var param = message.Params.Values;
             param.Clear();
             param.AddRange(this.Params);
+        }
+
+        private IRCTags SetTags(Dictionary<string, List<string>> tags)
+        {
+            if (tags == null || tags.Count == 0)
+            {
+                return null;
+            }
+
+            var mTags = new IRCTags();
+
+            foreach (var pair in tags)
+            {
+                var ircKey = new IRCTagKey();
+                ircKey.Name = pair.Key;
+                mTags.Values[ircKey] = this.MergeTagValues(pair.Value);
+            }
+
+            return mTags;
+
+        }
+
+        public string MergeTagValues(List<string> tagValues)
+        {
+            return string.Join(TagValuesSeparator.ToString(), tagValues);
         }
 
         public void PutParam(string param)

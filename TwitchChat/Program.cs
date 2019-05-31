@@ -34,6 +34,7 @@ namespace TwitchChat
                 client.Nick = nickName;
                 client.Capabilities.Add(KnownCapabilities.Commands);
                 client.Capabilities.Add(KnownCapabilities.Membership);
+                client.Capabilities.Add(KnownCapabilities.Tags);
                 client.Connect();
 
                 new Thread(() =>
@@ -94,11 +95,11 @@ namespace TwitchChat
             }
             else if (command is CommandRaw raw)
             {
-                user.SendMessage($"{raw.Sender.Nick} - {raw.Name} {string.Join(" ", raw.Values)}");
+                user.SendMessage($"{raw.Sender?.Nick ?? "{NULL}"} - {raw.Name} {string.Join(" ", raw.Values)}");
             }
             else
             {
-                user.SendMessage($"{command.GetType().Name} - {command.Sender.Nick}");
+                user.SendMessage($"{command.Sender?.Nick ?? "{NULL}"} - {command.GetType().Name}");
             }
 
         }
