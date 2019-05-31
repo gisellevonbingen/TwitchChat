@@ -11,7 +11,7 @@ Selectable WebSocket, IRC Client
 * [Twitch Chatbots & IRC Guide](https://dev.twitch.tv/docs/irc/guide/)
 
 ### Requires
-* [IRCProtocol](IRCProtocol)
+* [IRCProtocol](https://github.com/gisellevonbingen/IRCProtocol)
 * [TwitchAPIs](https://github.com/gisellevonbingen/TwitchAPIs)
 * [TwitchAPIs.Test](https://github.com/gisellevonbingen/TwitchAPIs)
 * [WebSocketSharp](https://github.com/sta/websocket-sharp)
