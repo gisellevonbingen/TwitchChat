@@ -26,7 +26,7 @@ namespace TwitchChat.Commands
         {
             base.Read(serializer);
 
-            var toString = ParamsUtils.RemovePrefix(serializer.GetParam(), IRCParams.TrailingPrefix);
+            var toString = StringUtils.RemovePrefix(serializer.GetParam(), IRCParams.TrailingPrefix);
             var splited = toString.Split(new string[] { ViewersSeparator }, StringSplitOptions.None);
             var targetChannel = splited[0];
 

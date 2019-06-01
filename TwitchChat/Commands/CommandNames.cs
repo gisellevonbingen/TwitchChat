@@ -33,7 +33,7 @@ namespace TwitchChat.Commands
 
             var users = this.Users;
             users.Clear();
-            users.AddRange(ParamsUtils.RemovePrefix(serializer.GetParam(), IRCParams.TrailingPrefix).Split(new string[] { UsersDelimiter }, StringSplitOptions.None));
+            users.AddRange(StringUtils.RemovePrefix(serializer.GetParam(), IRCParams.TrailingPrefix).Split(new string[] { UsersDelimiter }, StringSplitOptions.None));
         }
 
         public override void Write(CommandSerializer serializer)
@@ -45,7 +45,7 @@ namespace TwitchChat.Commands
             serializer.PutParam(this.Channel);
 
             var users = this.Users;
-            serializer.PutParam(ParamsUtils.AddPrefix(string.Join(UsersDelimiter, users), IRCParams.TrailingPrefix));
+            serializer.PutParam(StringUtils.AddPrefix(string.Join(UsersDelimiter, users), IRCParams.TrailingPrefix));
         }
 
     }

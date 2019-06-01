@@ -21,7 +21,7 @@ namespace TwitchChat.Commands
             base.Read(serializer);
 
             var value = serializer.GetParam(true);
-            this.Message = ParamsUtils.RemovePrefix(value, IRCParams.TrailingPrefix);
+            this.Message = StringUtils.RemovePrefix(value, IRCParams.TrailingPrefix);
         }
 
         public override void Write(CommandSerializer serializer)
@@ -32,7 +32,7 @@ namespace TwitchChat.Commands
 
             if (message != null)
             {
-                var value = ParamsUtils.AddPrefix(this.Message, IRCParams.TrailingPrefix);
+                var value = StringUtils.AddPrefix(this.Message, IRCParams.TrailingPrefix);
                 serializer.PutParam(value);
             }
 

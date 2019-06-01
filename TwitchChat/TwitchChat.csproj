@@ -98,7 +98,7 @@
     <Compile Include="KnownCapabilities.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Commands\ParamsUtils.cs" />
+    <Compile Include="StringUtils.cs" />
     <Compile Include="ChatClient.cs" />
     <Compile Include="ChatClientIRC.cs" />
     <Compile Include="ChatClientWebSocket.cs" />
