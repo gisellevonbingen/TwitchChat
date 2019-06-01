@@ -3,25 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TwitchAPIs;
 
 namespace TwitchChat.Commands
 {
-    public class TagsUserNotice : Tags
+    public class TagsUserNotice : TagsUserMesage
     {
-        public string BadgeInfo { get; set; }
-        public List<string> Badeges { get; set; }
-        public string Color { get; set; }
-        public string DisplayName { get; set; }
-        public string Emotes { get; set; }
-        public string Id { get; set; }
         public string Login { get; set; }
-        public string Message { get; set; }
-        public string Mod { get; set; }
         public string MessageId { get; set; }
-        public string RoomId { get; set; }
         public string SystemMessage { get; set; }
-        public string Timestamp { get; set; }
-        public string UserId { get; set; }
+
 
         public string MsgParamCumulativeMonths { get; set; }
         public string MsgParamDisplayname { get; set; }
@@ -49,20 +40,11 @@ namespace TwitchChat.Commands
 
         public override void Read(TagsSerializer serializer)
         {
-            this.BadgeInfo = serializer.GetSingle("badge-info");
-            this.Badeges = serializer.GetList("badges");
-            this.Color = serializer.GetSingle("color");
-            this.DisplayName = serializer.GetSingle("display-name");
-            this.Emotes = serializer.GetSingle("emotes");
-            this.Id = serializer.GetSingle("id");
+            base.Read(serializer);
+
             this.Login = serializer.GetSingle("login");
-            this.Message = serializer.GetSingle("message");
-            this.Mod = serializer.GetSingle("mod");
             this.MessageId = serializer.GetSingle("msg-id");
-            this.RoomId = serializer.GetSingle("room-id");
             this.SystemMessage = serializer.GetSingle("system-msg");
-            this.Timestamp = serializer.GetSingle("tmi-sent-ts");
-            this.UserId = serializer.GetSingle("user-id");
 
             this.MsgParamCumulativeMonths = serializer.GetSingle("msg-param-cumulative-months");
             this.MsgParamDisplayname = serializer.GetSingle("msg-param-displayName");
@@ -86,7 +68,7 @@ namespace TwitchChat.Commands
 
         public override void Write(TagsSerializer serializer)
         {
-
+            base.Write(serializer);
         }
 
     }

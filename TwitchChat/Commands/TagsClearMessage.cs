@@ -19,6 +19,8 @@ namespace TwitchChat.Commands
 
         public override void Read(TagsSerializer serializer)
         {
+            base.Read(serializer);
+
             this.Login = serializer.GetSingle("login");
             this.Message = serializer.GetSingle("message");
             this.TargetMessageid = serializer.GetSingle("target-msg-id");
@@ -26,7 +28,7 @@ namespace TwitchChat.Commands
 
         public override void Write(TagsSerializer serializer)
         {
-
+            base.Write(serializer);
         }
 
     }

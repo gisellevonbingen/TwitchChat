@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace TwitchChat.Commands
 {
-    public class TagsUserState : Tags
+    public class TagsUserState : TagsUser
     {
-        public string BadgeInfo { get; set; }
-        public List<string> Badeges { get; set; }
-        public string Color { get; set; }
-        public string DisplayName { get; set; }
         public List<string> EmoteSets { get; set; }
-        public string Mod { get; set; }
 
         public TagsUserState()
         {
@@ -22,17 +17,14 @@ namespace TwitchChat.Commands
 
         public override void Read(TagsSerializer serializer)
         {
-            this.BadgeInfo = serializer.GetSingle("badge-info");
-            this.Badeges = serializer.GetList("badges");
-            this.Color = serializer.GetSingle("color");
-            this.DisplayName = serializer.GetSingle("display-name");
+            base.Read(serializer);
+
             this.EmoteSets = serializer.GetList("emote-sets");
-            this.Mod = serializer.GetSingle("mod");
         }
 
         public override void Write(TagsSerializer serializer)
         {
-
+            base.Write(serializer);
         }
 
     }

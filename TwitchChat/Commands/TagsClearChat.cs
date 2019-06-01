@@ -18,12 +18,14 @@ namespace TwitchChat.Commands
 
         public override void Read(TagsSerializer serializer)
         {
+            base.Read(serializer);
+
             this.BanDuration = NumberUtils.ToIntNullable(serializer.GetSingle("ban-duration"));
         }
 
         public override void Write(TagsSerializer serializer)
         {
-
+            base.Write(serializer);
         }
 
     }

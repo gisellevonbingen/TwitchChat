@@ -13,9 +13,15 @@ namespace TwitchChat.Commands
 
         }
 
-        public abstract void Read(TagsSerializer serializer);
+        public virtual void Read(TagsSerializer serializer)
+        {
 
-        public abstract void Write(TagsSerializer serializer);
+        }
+
+        public virtual void Write(TagsSerializer serializer)
+        {
+
+        }
 
     }
 

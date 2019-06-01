@@ -17,6 +17,8 @@ namespace TwitchChat.Commands
 
         public override void Read(TagsSerializer serializer)
         {
+            base.Read(serializer);
+
             this.Raw.Clear();
 
             foreach (var pair in serializer.Raw)
@@ -28,6 +30,8 @@ namespace TwitchChat.Commands
 
         public override void Write(TagsSerializer serializer)
         {
+            base.Write(serializer);
+
             foreach (var pair in this.Raw)
             {
                 serializer.Raw[pair.Key] = pair.Value;
