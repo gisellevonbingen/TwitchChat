@@ -50,7 +50,7 @@ namespace TwitchChat
 
         public IRCMessage RecieveMessage()
         {
-            var raw = this.Impl.Receive();
+            var raw = StringUtils.RemoveSuffx(this.Impl.Receive(), Environment.NewLine);
 
             if (raw == null)
             {
