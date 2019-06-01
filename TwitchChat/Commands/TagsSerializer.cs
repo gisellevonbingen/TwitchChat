@@ -46,7 +46,7 @@ namespace TwitchChat.Commands
 
             if (this.Raw.TryGetValue(key, out var value) == true)
             {
-                var splits = value.Split(new string[] { separator }, StringSplitOptions.None);
+                var splits = value.Split(separator);
                 values.AddRange(splits);
             }
 

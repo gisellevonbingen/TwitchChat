@@ -33,7 +33,7 @@ namespace TwitchChat.Commands
 
             var users = this.Users;
             users.Clear();
-            users.AddRange(serializer.GetParam().RemovePrefix(IRCParams.TrailingPrefix).Split(new string[] { UsersDelimiter }, StringSplitOptions.None));
+            users.AddRange(serializer.GetParam().RemovePrefix(IRCParams.TrailingPrefix).Split(UsersDelimiter);
         }
 
         public override void Write(CommandSerializer serializer)
