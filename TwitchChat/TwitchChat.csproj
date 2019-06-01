@@ -55,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Badge.cs" />
     <Compile Include="Commands\Command.cs" />
     <Compile Include="Commands\CommandCapability.cs" />
     <Compile Include="Commands\CommandChannel.cs" />
@@ -84,6 +85,8 @@
     <Compile Include="Commands\CommandSingleValue.cs" />
     <Compile Include="Commands\CommandUserNotice.cs" />
     <Compile Include="Commands\CommandUserState.cs" />
+    <Compile Include="Commands\Emote.cs" />
+    <Compile Include="Commands\EmoteIndex.cs" />
     <Compile Include="Commands\Tags.cs" />
     <Compile Include="Commands\TagsClearChat.cs" />
     <Compile Include="Commands\TagsClearMessage.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="Commands\TagsSerializer.cs" />
     <Compile Include="Commands\TagsUserNotice.cs" />
     <Compile Include="Commands\TagsUserState.cs" />
+    <Compile Include="EnumerableUtils.cs" />
     <Compile Include="ProtocolSecurity.cs" />
     <Compile Include="KnownCapabilities.cs" />
     <Compile Include="Program.cs" />

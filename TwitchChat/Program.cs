@@ -83,14 +83,16 @@ namespace TwitchChat
             if (command is CommandChannelMessage ccm)
             {
                 var nick = ccm.Sender.Nick;
+                var offset = new DateTime?();
 
                 if (ccm is CommandPrivateMessage cpm)
                 {
                     nick = cpm.Tags.DisplayName;
+                    offset = cpm.Tags.SentTimestamp;
                     //PrintReflection(user, "TagsUserState", cus.Tags);
                 }
 
-                user.SendMessage($"{ccm.Channel} - {ccm.GetType().Name} - {nick}: {ccm.Message}");
+                user.SendMessage($"{ccm.Channel} - {ccm.GetType().Name} [{offset}] - {nick}: {ccm.Message}");
             }
             else if (command is CommandChannel cm)
             {
