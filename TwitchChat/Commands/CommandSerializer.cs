@@ -9,9 +9,7 @@ namespace TwitchChat.Commands
 {
     public class CommandSerializer
     {
-        public const char TagValuesSeparator = ',';
-
-        public Dictionary<string, List<string>> Tags { get; set; }
+        public Dictionary<string, string> Tags { get; set; }
         public IRCPrefix Sender { get; set; }
         public string Command { get; set; }
         public int ParamsIndex { get; private set; }
@@ -49,7 +47,7 @@ namespace TwitchChat.Commands
             {
                 if (this.Tags == null)
                 {
-                    this.Tags = new Dictionary<string, List<string>>();
+                    this.Tags = new Dictionary<string, string>();
                 }
 
                 var tagSerializer = new TagsSerializer(this.Tags);
@@ -69,32 +67,23 @@ namespace TwitchChat.Commands
             this.ParamsIndex = 0;
         }
 
-        private Dictionary<string, List<string>> GetTags(IRCMessage message)
+        private Dictionary<string, string> GetTags(IRCMessage message)
         {
             var mTags = message.Tags;
 
             if (mTags != null)
             {
-                var tags = new Dictionary<string, List<string>>();
+                var tags = new Dictionary<string, string>();
 
                 foreach (var pair in mTags.Values)
                 {
-                    tags[pair.Key.Name] = this.SplitTagValues(pair.Value);
+                    tags[pair.Key.Name] = pair.Value;
                 }
 
                 return tags;
             }
 
             return null;
-        }
-
-        public List<string> SplitTagValues(string tagValue)
-        {
-            var values = new List<string>();
-            var splits = tagValue.Split(TagValuesSeparator);
-            values.AddRange(splits);
-
-            return values;
         }
 
         public void ToMessage(IRCMessage message)
@@ -107,7 +96,7 @@ namespace TwitchChat.Commands
             param.AddRange(this.Params);
         }
 
-        private IRCTags SetTags(Dictionary<string, List<string>> tags)
+        private IRCTags SetTags(Dictionary<string, string> tags)
         {
             if (tags == null || tags.Count == 0)
             {
@@ -120,16 +109,11 @@ namespace TwitchChat.Commands
             {
                 var ircKey = new IRCTagKey();
                 ircKey.Name = pair.Key;
-                mTags.Values[ircKey] = this.MergeTagValues(pair.Value);
+                mTags.Values[ircKey] = pair.Value;
             }
 
             return mTags;
 
-        }
-
-        public string MergeTagValues(List<string> tagValues)
-        {
-            return string.Join(TagValuesSeparator.ToString(), tagValues);
         }
 
         public void PutParam(string param)

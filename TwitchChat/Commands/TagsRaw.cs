@@ -8,11 +8,11 @@ namespace TwitchChat.Commands
 {
     public class TagsRaw : Tags
     {
-        public Dictionary<string, List<string>> Raw { get; }
+        public Dictionary<string, string> Raw { get; }
 
         public TagsRaw()
         {
-            this.Raw = new Dictionary<string, List<string>>();
+            this.Raw = new Dictionary<string, string>();
         }
 
         public override void Read(TagsSerializer serializer)
