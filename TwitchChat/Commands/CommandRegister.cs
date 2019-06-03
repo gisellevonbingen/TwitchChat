@@ -62,7 +62,7 @@ namespace TwitchChat.Commands
                 message.Params = new IRCParams();
 
                 var serializer = new CommandSerializer();
-                serializer.Command = FromType(command.GetType()).Name;
+                serializer.Command = FromType(command.GetType())?.Name;
                 command.Write(serializer);
                 serializer.ToMessage(message);
 
