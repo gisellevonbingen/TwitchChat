@@ -95,6 +95,8 @@
     <Compile Include="Commands\TagsRaw.cs" />
     <Compile Include="Commands\TagsRoomState.cs" />
     <Compile Include="Commands\TagsSerializer.cs" />
+    <Compile Include="Commands\TagsUser.cs" />
+    <Compile Include="Commands\TagsUserMesage.cs" />
     <Compile Include="Commands\TagsUserNotice.cs" />
     <Compile Include="Commands\TagsUserState.cs" />
     <Compile Include="Commands\TagsUtils.cs" />
