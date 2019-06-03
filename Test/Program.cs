@@ -9,10 +9,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using TwitchAPIs;
 using TwitchAPIs.Test;
-using TwitchChat.Commands;
-using WebSocketSharp;
+using TwitchChat.Test.Commands;
 
-namespace TwitchChat
+namespace TwitchChat.Test
 {
     public class Program
     {
