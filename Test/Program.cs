@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TwitchAPIs;
 using TwitchAPIs.Test;
-using TwitchChat.Test.Commands;
+using TwitchChat.Commands;
 
 namespace TwitchChat.Test
 {
