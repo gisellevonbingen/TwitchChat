@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace TwitchChat.Commands
 {
-    public abstract class TagsUser : Tags
+    public abstract class TagsUserBase : Tags
     {
-        public string BadgeInfo { get; set; }
-        public List<string> Badeges { get; set; }
+        public Badge BadgeInfo { get; set; }
+        public Badge[] Badeges { get; set; }
         public string Color { get; set; }
         public string DisplayName { get; set; }
-        public string Mod { get; set; }
 
-        public TagsUser()
+        public TagsUserBase()
         {
 
         }
@@ -23,11 +22,10 @@ namespace TwitchChat.Commands
         {
             base.Read(serializer);
 
-            this.BadgeInfo = serializer.GetSingle("badge-info");
-            this.Badeges = serializer.GetList("badges");
+            this.BadgeInfo = Badge.Parse(serializer.GetSingle("badge-info"));
+            this.Badeges = serializer.GetList("badges").Select(b => Badge.Parse(b)).ToArray(v => v != null);
             this.Color = serializer.GetSingle("color");
             this.DisplayName = serializer.GetSingle("display-name");
-            this.Mod = serializer.GetSingle("mod");
         }
 
         public override void Write(TagsSerializer serializer)

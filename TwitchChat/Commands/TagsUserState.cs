@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TwitchChat.Commands
 {
-    public class TagsUserState : TagsUser
+    public class TagsUserState : TagsUserStateBase
     {
-        public List<string> EmoteSets { get; set; }
+        public string Mod { get; set; }
 
         public TagsUserState()
         {
@@ -19,7 +19,7 @@ namespace TwitchChat.Commands
         {
             base.Read(serializer);
 
-            this.EmoteSets = serializer.GetList("emote-sets");
+            this.Mod = serializer.GetSingle("mod");
         }
 
         public override void Write(TagsSerializer serializer)
