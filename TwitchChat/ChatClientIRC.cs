@@ -85,20 +85,43 @@ namespace TwitchChat
                 }
 
             }
+            else
+            {
+                throw new IOException();
+            }
 
         }
 
         public override void Send(string raw)
         {
-            this.EnsureNotDispose();
-            this.Writer.WriteLine(raw);
-            this.Writer.Flush();
+            lock (this.ActiveLock)
+            {
+                this.EnsureNotDispose();
+                this.Writer.WriteLine(raw);
+                this.Writer.Flush();
+            }
+
         }
 
         public override string Receive()
         {
-            this.EnsureNotDispose();
-            return this.Reader.ReadLine();
+            StreamReader reader = null;
+
+            lock (this.ActiveLock)
+            {
+                this.EnsureNotDispose();
+                reader = this.Reader;
+            }
+
+            if (reader != null)
+            {
+                return reader.ReadLine();
+            }
+            else
+            {
+                throw new NullReferenceException();
+            }
+
         }
 
     }
