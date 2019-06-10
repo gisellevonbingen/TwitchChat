@@ -36,6 +36,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Giselle.Commons">
+      <HintPath>..\Libs\TwitchAPIs.Test\Giselle.Commons.dll</HintPath>
+    </Reference>
     <Reference Include="IRCProtocol">
       <HintPath>..\Libs\IRCProtocol\IRCProtocol.dll</HintPath>
     </Reference>
