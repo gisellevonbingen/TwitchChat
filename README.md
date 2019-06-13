@@ -13,5 +13,7 @@ Selectable WebSocket, IRC Client
 ### Requires
 * [IRCProtocol](https://github.com/gisellevonbingen/IRCProtocol)
 * [TwitchAPIs](https://github.com/gisellevonbingen/TwitchAPIs)
-* [TwitchAPIs.Test](https://github.com/gisellevonbingen/TwitchAPIs)
 * [WebSocketSharp](https://github.com/sta/websocket-sharp)
+
+### Test.Requires
+* [TwitchAPIs.Test](https://github.com/gisellevonbingen/TwitchAPIs)
