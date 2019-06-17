@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TwitchAPIs;
+using TwitchAPIs.OAuth;
 using TwitchAPIs.Test;
 using TwitchChat.Commands;
 
