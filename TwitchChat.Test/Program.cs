@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TwitchAPIs;
-using TwitchAPIs.OAuth;
+using TwitchAPIs.Authentication;
 using TwitchAPIs.Test;
 using TwitchChat.Commands;
 
@@ -132,17 +132,17 @@ namespace TwitchChat.Test
 
         }
 
-        private static OAuthAuthorization Auth(string clientId, string redirectURI)
+        private static AuthenticationResult Auth(string clientId, string redirectURI)
         {
             var api = new TwitchAPI();
             api.ClientId = clientId;
 
             using (var authHandler = new TwitchAuthHandler(api))
             {
-                var authRequest = new OAuthRequestToken();
+                var authRequest = new OAuthRequestTokenCode();
                 authRequest.State = Guid.NewGuid().ToString().Replace("-", "");
-                authRequest.RedirectURI = redirectURI;
-                authRequest.Scope = "chat:edit+chat:read";
+                authRequest.RedirectUri = redirectURI;
+                authRequest.Scopes.AddRange(new string[] { "chat:edit", "chat:read" });
 
                 return authHandler.Auth(authRequest);
             }
