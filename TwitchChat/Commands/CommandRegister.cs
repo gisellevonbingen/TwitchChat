@@ -15,6 +15,8 @@ namespace TwitchChat.Commands
         {
             List = new List<CommandRegistration>();
 
+            Register("421", typeof(CommandInvalid));
+
             Register("cap", typeof(CommandCapability));
             Register("pass", typeof(CommandPass));
             Register("nick", typeof(CommandNick));
@@ -26,7 +28,6 @@ namespace TwitchChat.Commands
             Register("353", typeof(CommandNames));
             Register("366", typeof(CommandEndOfNames));
             Register("part", typeof(CommandPart));
-
 
             Register("clearchat", typeof(CommandClearChat));
             Register("clearmsg", typeof(CommandClearMessage));

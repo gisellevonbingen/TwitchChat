@@ -66,6 +66,7 @@
     <Compile Include="Commands\CommandException.cs" />
     <Compile Include="Commands\CommandGlobalUserState.cs" />
     <Compile Include="Commands\CommandHostTarget.cs" />
+    <Compile Include="Commands\CommandInvalid.cs" />
     <Compile Include="Commands\CommandJoin.cs" />
     <Compile Include="Commands\CommandMode.cs" />
     <Compile Include="Commands\CommandNames.cs" />

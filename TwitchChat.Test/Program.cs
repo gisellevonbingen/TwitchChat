@@ -80,7 +80,11 @@ namespace TwitchChat.Test
             var client = this.Client;
             var command = client.RecieveCommand();
 
-            if (command is CommandChannelMessage ccm)
+            if (command is CommandInvalid ci)
+            {
+                user.SendMessage($"{ci.Sender?.Nick ?? "{NULL}"} - {ci.Command} {ci.Message}");
+            }
+            else if (command is CommandChannelMessage ccm)
             {
                 var nick = ccm.Sender.Nick;
                 var offset = new DateTime?();
@@ -115,19 +119,19 @@ namespace TwitchChat.Test
 
             if (command is CommandGlobalUserState cgus)
             {
-                PrintReflection(user, "TagsGlobalUserState", cgus.Tags);
+                user.SendMessageAsReflection("TagsGlobalUserState", cgus.Tags);
             }
             else if (command is CommandUserState cus)
             {
-                PrintReflection(user, "TagsUserState", cus.Tags);
+                user.SendMessageAsReflection("TagsUserState", cus.Tags);
             }
             else if (command is CommandRoomState crs)
             {
-                PrintReflection(user, "TagsRoomState", crs.Tags);
+                user.SendMessageAsReflection("TagsRoomState", crs.Tags);
             }
             else if (command is CommandUserNotice cun)
             {
-                PrintReflection(user, "TagsUserNotice", cun.Tags);
+                user.SendMessageAsReflection("TagsUserNotice", cun.Tags);
             }
 
         }
@@ -147,76 +151,6 @@ namespace TwitchChat.Test
                 return authHandler.Auth(authRequest);
             }
 
-        }
-
-        public static void PrintReflection<T>(UserAbstract user, string name, T value)
-        {
-            var lines = ToString(value);
-
-            user.SendMessage();
-            user.SendMessage($"== {name} ==");
-
-            for (int i = 0; i < lines.Count; i++)
-            {
-                var line = lines[i];
-                var prefix = new string(' ', (line.Level + 1) * 4);
-                user.SendMessage($"{prefix}{line.Message}");
-            }
-
-        }
-
-        public static List<PrintableLine> ToString(object obj, int level = 0)
-        {
-            var list = new List<PrintableLine>();
-
-            if (obj == null)
-            {
-                list.Add(new PrintableLine(level, "{null}"));
-            }
-            else if (obj is IConvertible convertible)
-            {
-                list.Add(new PrintableLine(level, $"'{convertible}'"));
-            }
-            else if (obj is IEnumerable enumerable)
-            {
-                var array = enumerable.OfType<object>().ToArray();
-                list.Add(new PrintableLine(level, $"Enumerable Count = {array.Length}"));
-
-                for (int i = 0; i < array.Length; i++)
-                {
-                    list.Add(new PrintableLine(level, $"{i}/{array.Length}"));
-                    list.AddRange(ToString(array[i], level + 1));
-                }
-
-            }
-            else
-            {
-                var type = obj.GetType();
-                var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.GetProperty);
-
-                //list.Add(new PrintableLine(level, $"Type.FullName = {type.FullName}"));
-                //list.Add(new PrintableLine(level, $"Properties.Length = {properties.Length}"));
-
-                for (int i = 0; i < properties.Length; i++)
-                {
-                    var property = properties[i];
-                    var propertyLines = ToString(property.GetValue(obj), level + 1);
-
-                    if (propertyLines.Count == 1)
-                    {
-                        list.Add(new PrintableLine(level, $"{property.Name} = {propertyLines[0].Message}"));
-                    }
-                    else
-                    {
-                        list.Add(new PrintableLine(level, $"{property.Name}"));
-                        list.AddRange(propertyLines);
-                    }
-
-                }
-
-            }
-
-            return list;
         }
 
     }
